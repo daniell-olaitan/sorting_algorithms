@@ -1,5 +1,28 @@
 #include "sort.h"
 
+#include "sort.h"
+
+/**
+ * print_list - Prints a list of integers
+ *
+ * @list: The list to be printed
+ */
+void print_list(const listint_t *list)
+{
+    int i;
+
+    i = 0;
+    while (list)
+    {
+        if (i > 0)
+            printf(", ");
+        printf("%d", list->n);
+        ++i;
+        list = list->next;
+    }
+    printf("\n");
+}
+
 /**
  * insertion_sort_list - sorts a doubly linked list in ascending order
  * using an insertion sort
@@ -8,10 +31,10 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current == NULL;
-	listint_t *pick == NULL;
+	listint_t *current = NULL;
+	listint_t *tmp = NULL;
 
-	if (!list || !(*list) || !(list->next))
+	if (!list || !(*list) || !(*list)->next)
 		return;
 
 	current = *list;
@@ -29,7 +52,7 @@ void insertion_sort_list(listint_t **list)
 				current->next = tmp;
 				current->prev = tmp->prev;
 				if (tmp->prev)
-					temp->prev->next = current;
+					tmp->prev->next = current;
 
 				tmp->prev = current;
 				print_list(*list);
