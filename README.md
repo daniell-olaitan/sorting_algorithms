@@ -1,0 +1,1 @@
+Repository contains the implementations of various sorting algorithms in C programming language.
