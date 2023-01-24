@@ -10,9 +10,7 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	bool swap = false;
-	listint_t *current = NULL;
-	listint_t *tmp = NULL;
+	listint_t *current = NULL, *pick = NULL;
 
 	if (!list || !(*list) || !(*list)->next)
 		return;
@@ -20,27 +18,24 @@ void insertion_sort_list(listint_t **list)
 	current = (*list)->next;
 	while (current)
 	{
-		tmp = current->prev;
-		if (tmp && current->n > tmp->n)
+		pick = current;
+		current = current->next;
+		while (pick->prev && pick->n > pick->prev->n)
 		{
-			aux = current->next;
-			
-			{
-				current->prev->next = current->next;
-				if (current->next)
-					current->next->prev = current->prev;
+		        if (pick->prev->prev)
+				pick->prev->prev->next = pick;
+			else
+				*list = pick;
 
-				current->next = tmp;
-				current->prev = tmp->prev;
-				if (tmp->prev)
-					tmp->prev->next = current;
-				else
-					*list = current;
+			if (pick->next)
+				pick->next->prev = pick->prev;
 
-				tmp->prev = current;
-				print_list(*list);
-			}
-			tmp = tmp->next;
+			pick->prev = pick->prev->prev;
+			pick->prev->next = pick->next;
+			pick->prev->prev = pick;
+			pick->next = pick->prev;
+
+			print_list(*list);
 		}
 	}
 }
