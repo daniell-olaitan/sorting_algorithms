@@ -3,27 +3,6 @@
 #include "sort.h"
 
 /**
- * print_list - Prints a list of integers
- *
- * @list: The list to be printed
- */
-void print_list(const listint_t *list)
-{
-    int i;
-
-    i = 0;
-    while (list)
-    {
-        if (i > 0)
-            printf(", ");
-        printf("%d", list->n);
-        ++i;
-        list = list->next;
-    }
-    printf("\n");
-}
-
-/**
  * insertion_sort_list - sorts a doubly linked list in ascending order
  * using an insertion sort
  * @list: the given list to be sorted
@@ -31,19 +10,21 @@ void print_list(const listint_t *list)
  */
 void insertion_sort_list(listint_t **list)
 {
+	bool swap = false;
 	listint_t *current = NULL;
 	listint_t *tmp = NULL;
 
 	if (!list || !(*list) || !(*list)->next)
 		return;
 
-	current = *list;
-	while (current != NULL)
+	current = (*list)->next;
+	while (current)
 	{
-		tmp = *list;
-		while (tmp != current)
+		tmp = current->prev;
+		if (tmp && current->n > tmp->n)
 		{
-			if (current->n < tmp->n)
+			aux = current->next;
+			
 			{
 				current->prev->next = current->next;
 				if (current->next)
@@ -53,12 +34,13 @@ void insertion_sort_list(listint_t **list)
 				current->prev = tmp->prev;
 				if (tmp->prev)
 					tmp->prev->next = current;
+				else
+					*list = current;
 
 				tmp->prev = current;
 				print_list(*list);
 			}
 			tmp = tmp->next;
 		}
-		current = current->next;
 	}
 }
