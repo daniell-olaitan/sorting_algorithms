@@ -1,7 +1,5 @@
 #include "sort.h"
 
-#include "sort.h"
-
 /**
  * insertion_sort_list - sorts a doubly linked list in ascending order
  * using an insertion sort
@@ -10,7 +8,7 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current = NULL, *pick = NULL;
+	listint_t *current = NULL, *pick = NULL, *tmp = NULL;
 
 	if (!list || !(*list) || !(*list)->next)
 		return;
@@ -30,10 +28,11 @@ void insertion_sort_list(listint_t **list)
 			if (pick->next)
 				pick->next->prev = pick->prev;
 
-			pick->prev = pick->prev->prev;
 			pick->prev->next = pick->next;
+			tmp = pick->prev->prev;
 			pick->prev->prev = pick;
 			pick->next = pick->prev;
+			pick->prev = tmp;
 
 			print_list(*list);
 		}
