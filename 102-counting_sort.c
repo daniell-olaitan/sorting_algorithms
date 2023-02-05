@@ -1,4 +1,4 @@
-#include "sort"
+#include "sort.h"
 
 /**
  * counting_sort - implements a counting sort algorithm
@@ -8,9 +8,9 @@
  */
 void counting_sort(int *array, size_t size)
 {
-	int *count;
-	size_t i;
-	int max = 0, tmp;
+	int *count, *output;
+	size_t i, j;
+	int max = 0;
 
 	if (size < 2)
 		return;
@@ -22,25 +22,32 @@ void counting_sort(int *array, size_t size)
 	}
 
 	count = malloc(sizeof(int) * (max + 1));
-	if (count == NULL)
+	output = malloc(sizeof(int) * size);
+	if (count == NULL || output == NULL)
 		return;
 
-	for (i = 0; i <= max; ++i)
+	j = (size_t)max;
+	for (i = 0; i <= j; ++i)
 		count[i] = 0;
 
-	for (i = 0; i <= max; ++i)
+	for (i = 0; i < size; ++i)
 		count[array[i]] = count[array[i]] + 1;
 
-	for (i = 1; i <= max; ++i)
+	for (i = 1; i <= j; ++i)
 		count[i] = count[i] + count[i - 1];
 
-	print_array(array, size);
-	for (i = max; i >= 0; --i)
+	print_array(count, max + 1);
+	for (i = size - 1; ; --i)
 	{
-		tmp = array[i];
-		array[count[tmp]] = tmp;
-		count[tmp] = count[tmp] - 1;
+		output[count[array[i]] - 1] = array[i];
+		count[array[i]] = count[array[i]] - 1;
+		if (i == 0)
+			break;
 	}
 
+	for (i = 0; i < size; ++i)
+		array[i] = output[i];
+
 	free(count);
+	free(output);
 }
