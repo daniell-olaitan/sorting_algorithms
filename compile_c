@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-# compiles a c code using gcc
-
-if (( $# < 1 )); then
-    echo -e "compile_c requires one positional argument\nUsage: compile_c <filename.c>"
-   exit 1
-else
-    gcc -Werror -Wall -Wextra -pedantic $*
-fi
