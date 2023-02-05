@@ -8,16 +8,37 @@
  */
 void shell_sort(int *array, size_t size)
 {
-	unsigned int i, j;
-	size_t n;
-	long int gap = 1;
+	int tmp;
+	size_t i, j, p;
+	size_t gap = 1;
 
-	n = size / 3;
-	while (gap < n)
+	while (gap < size / 3)
 		gap = gap * 3 + 1;
 
-	while (gap > 0)
+	while (gap >= 1)
 	{
 		for (i = 0; i < gap; ++i)
 		{
-			for (j = i; j < size; j += gap)
+			for (j = i + gap; j < size; j += gap)
+			{
+				p = j;
+				if (array[p] < array[p - gap])
+				{
+					while (p > i &&
+					       array[p] < array[p - gap])
+					{
+						tmp = array[p];
+						array[p] = array[p - gap];
+						array[p - gap] = tmp;
+						p -= gap;
+					}
+				}
+			}
+		}
+		print_array(array, size);
+		if (gap == 1)
+			break;
+
+		gap = (gap - 1) / 3;
+	}
+}
